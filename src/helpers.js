@@ -3,7 +3,7 @@ const FastBitSet = require('fastbitset');
 const booleanParser = require('boolean-parser');
 
 const clone = function(val) {
- 
+
 
   try {
     return JSON.parse(JSON.stringify(val));
@@ -39,7 +39,10 @@ const combination_indexes = function(facets, filters) {
         const filter_val = disjunctive_filter[1];
 
         filter_keys.push(filter_key);
-        facet_union = facet_union.new_union(facets['bits_data'][filter_key][filter_val]);
+        try {
+          facet_union = facet_union.new_union(facets['bits_data'][filter_key][filter_val]);
+        } catch (e) {
+        }
         indexes[filter_key] = facet_union;
       });
     }
@@ -311,7 +314,10 @@ const facets_ids = function(facets_data, filters) {
     filters.forEach(filter => {
 
       ++i;
-      output = output.new_union(facets_data[field][filter]);
+      try {
+        output = output.new_union(facets_data[field][filter]);
+      } catch (e) {
+      }
     });
   });
 
